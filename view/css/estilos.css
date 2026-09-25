@@ -1,0 +1,33 @@
+        .menu-link:hover {
+            background-color: #0d6efd;
+            /* azul bootstrap */
+        }
+
+        .active-menu {
+            background-color: #0d6efd;
+        }
+
+
+/* Forzar ancho fijo del sidebar en cualquier situacion */
+nav.bg-black {
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+}
+
+/* Evitar que el contenido del sidebar se desborde */
+nav.bg-black .p-3 {
+    width: 220px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* Forzar que los enlaces no expandan el contenedor */
+nav.bg-black a {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}

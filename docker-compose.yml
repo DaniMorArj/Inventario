@@ -1,0 +1,54 @@
+# Entorno LOCAL para desarrollar y probar (php:8.2-apache + MariaDB).
+#   Levantar:  docker compose up --build
+#   App:       http://localhost:8080
+#   Parar:     docker compose down        (añade -v para borrar también la BD)
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: inventario
+      MARIADB_ROOT_PASSWORD: rootlocal
+      MARIADB_USER: inventario
+      MARIADB_PASSWORD: inventario
+    volumes:
+      # Carga el dump automaticamente la PRIMERA vez que se crea la BD.
+      - ./inventario.sql:/docker-entrypoint-initdb.d/01-inventario.sql:ro
+      - dbdata:/var/lib/mysql
+    ports:
+      # Solo para inspeccion local con un cliente MySQL.
+      - "3307:3306"
+
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: inventario
+      DB_USER: inventario
+      DB_PASS: inventario
+      APP_BASE_URL: http://localhost:8080
+      # SMTP - opcional en local. Vacio = no se envia correo de recuperacion.
+      SMTP_HOST: ""
+      SMTP_PORT: "587"
+      SMTP_SECURE: "tls"
+      SMTP_USER: ""
+      SMTP_PASS: ""
+      SMTP_FROM: "no-reply@example.com"
+      SMTP_FROM_NAME: "InventarioApp"
+      # Muro de acceso a la demo (vacio = sin muro, comodo en local).
+      APP_LOGIN_PASSWORD: ""
+    ports:
+      - "8080:80"
+    volumes:
+      # Codigo montado en vivo para iterar sin reconstruir la imagen.
+      - ./:/var/www/html
+      # Preserva el vendor/ instalado por Composer dentro de la imagen.
+      - /var/www/html/vendor
+    depends_on:
+      - db
+
+volumes:
+  dbdata:

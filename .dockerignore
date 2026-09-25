@@ -1,0 +1,10 @@
+.git
+.gitignore
+Docs/
+vendor/
+.env
+.env.local
+.env.example
+CLAUDE.local.md
+docker-compose.yml
+*.log

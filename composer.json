@@ -1,0 +1,7 @@
+{
+    "name": "portfolio/inventario-app",
+    "description": "InventarioApp - Gestion de inventario informatico (PHP MVC)",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
